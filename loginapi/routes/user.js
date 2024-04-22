@@ -3,7 +3,7 @@ const User = require("../model/user");
 const Getsphephicid = require('../model/getsphephicid');
 const router = express.Router();
 
-//rout create new id
+//rout create new id 
 router.post('/inputIds', async(req, res) =>{
     const body = req.body;
     if(
@@ -22,15 +22,14 @@ router.post('/inputIds', async(req, res) =>{
     return res.status(201).send('successful')
 });
 
-//read sphephic id using model ids
+//read sphephic id using model ids---------------------------------------------------------------------------------------------
 router.get('/SphephicUserId', async( req, res) =>{
     const body = req.body;
     if( !body.id )
-    {
-        console.log('result:-',body); 
+    { 
         return res.status(400).json({msg: `bad request'${body.id} `});
     }
-    console.log()
+    console.log(body)
     const user = await Getsphephicid.findById(body.id); 
     if(!user) return res.status(404).json({ error: 'user not found '});
     return res.json(user);
@@ -47,20 +46,20 @@ router.get('/getAllIds', async(req,res) =>{
     res.send(html);
 })
 
-//read sphephic id
+//read sphephic id id= _id;
 router.get('/userId/:id', async( req, res) =>{
     const user = await User.findById(req.params.id); 
     if(!user) return res.status(404).json({ error: 'user not found '});
     return res.json(user);
 }) 
  
-// update
-router.patch('/idPassUpdate',async(req, res) =>{
+// update------------------------------------------------------------------------------------------------------------------------------------
+router.patch('/idPassUpdate/:id',async(req, res) =>{
     await User.findByIdAndUpdate(req.params.id,{ password : 25846537 })
     return res.json({ status: 'success update'});
 })
 
-// delete
+// delete------------------------------------------------------------------------------------------------------------------------------------
 router.patch('/idDelete/:id',async(req, res) =>{
     await User.findByIdAndDelete(req.params.id)
     return res.json({ status: 'success delete'});
