@@ -22,16 +22,20 @@ router.post('/inputIds', async(req, res) =>{
     return res.status(201).send('successful')
 });
 
-//read sphephic id using model ids---------------------------------------------------------------------------------------------
+//read sphephic id using model ids ---------------------------------------------------------------------------------------------
 router.get('/SphephicUserId', async( req, res) =>{
-    const body = req.body;
-    if( !body.id )
+    const userId = req.body;
+
+    if( !userId )
     { 
-        return res.status(400).json({msg: `bad request'${body.id} `});
+        console.log(userId)
+        console.log(typeof(userId));
+        return res.status(400).json({ msg: `bad request id missing ${userId}` });
     }
-    console.log(body)
-    const user = await Getsphephicid.findById(body.id); 
-    if(!user) return res.status(404).json({ error: 'user not found '});
+    
+    // const user = await Getsphephicid.findById(body.id);
+    const user = await Getsphephicid.findById({userId}); 
+    if(!user) return res.status(404).json({ error: `user not found ${userId}`});
     return res.json(user);
 }) 
  
@@ -53,13 +57,13 @@ router.get('/userId/:id', async( req, res) =>{
     return res.json(user);
 }) 
  
-// update------------------------------------------------------------------------------------------------------------------------------------
+// update
 router.patch('/idPassUpdate/:id',async(req, res) =>{
     await User.findByIdAndUpdate(req.params.id,{ password : 25846537 })
     return res.json({ status: 'success update'});
 })
 
-// delete------------------------------------------------------------------------------------------------------------------------------------
+// delete
 router.patch('/idDelete/:id',async(req, res) =>{
     await User.findByIdAndDelete(req.params.id)
     return res.json({ status: 'success delete'});
